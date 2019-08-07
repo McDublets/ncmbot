@@ -58,10 +58,12 @@ bot.on('message', message=>{
 
     switch(args[0]){
         case 'info':{
-                 message.channel.sendMessage('Version ' + version);
-             }
-             break;
+            message.delete();
+            message.channel.sendMessage('Version ' + version);
+            }
+            break;
         case 'clear':
+            message.delete();
             if(!args[1]) return message.reply('Please define a number of messages to be cleared.')
             if(!message.member.roles.find(r => r.name === "Strategist")) return message.channel.send('YOU AINT AN ADMIN YOU IDIOT!!')
             message.channel.bulkDelete(args[1]);
@@ -73,9 +75,13 @@ bot.on('message', message=>{
             console.error
             break;
         case 'rules':
+            message.delete();
             message.channel.sendMessage('https://cdn.discordapp.com/attachments/547091017720135682/547141106421334037/CodeofConductFINAL.png')
             break;
-                
+        case 'commands':
+            message.delete();
+            message.channel.sendMessage('Prefix: ! Commands: info, clear, agree, rules.');
+            break;
     }
 })
 
