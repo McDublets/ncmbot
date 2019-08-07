@@ -91,5 +91,16 @@ bot.on('guildMemberAdd', member =>{
 
     channel.send(`Howdy ${member}, welcome to the server!  Deo Vindice`);
 })
+bot.on('message', msg=>{
+    if (msg.author == bot.user) {
+        return
+    } 
+    (msg.content);{
+         const logChannel = bot.channels.get("607772135351517210")
+    logChannel.send(`${msg.author.username}: ${msg.content}`)
+   
+    }
+});
+
 
 bot.login(token);
