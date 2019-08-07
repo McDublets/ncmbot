@@ -63,7 +63,7 @@ bot.on('message', message=>{
              break;
         case 'clear':
             if(!args[1]) return message.reply('Please define a number of messages to be cleared.')
-            if(!message.member.roles.find(r => r.name === "Moderator")) return message.channel.send('YOU AINT AN ADMIN YOU IDIOT!!')
+            if(!message.member.roles.find(r => r.name === "Strategist")) return message.channel.send('YOU AINT AN ADMIN YOU IDIOT!!')
             message.channel.bulkDelete(args[1]);
             return message.reply('Messages cleared!')
             break;
@@ -71,6 +71,9 @@ bot.on('message', message=>{
             :message.member.addRole('512099445236826112')
             console.log
             console.error
+            break;
+        case 'rules':
+            message.channel.sendMessage('https://cdn.discordapp.com/attachments/547091017720135682/547141106421334037/CodeofConductFINAL.png')
             break;
                 
     }
