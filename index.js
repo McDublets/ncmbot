@@ -67,6 +67,11 @@ bot.on('message', message=>{
             message.channel.bulkDelete(args[1]);
             return message.reply('Messages cleared!')
             break;
+        case 'agree'
+            :message.member.addRole('512099445236826112')
+            console.log
+            console.error
+            break;
                 
     }
 })
