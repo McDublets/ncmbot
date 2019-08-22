@@ -2,19 +2,19 @@ const {Client, Attachment} = require('discord.js');
 const Discord = require('discord.js')
 const bot = new Discord.Client();
 
-const token = '';
+const token = 'NjA3NzQ1NzAyMzIzNDIxMTk1.XV8LFg.Qo9VOv51VOisz4h9J_N9GqLFVUc';
 
 const PREFIX = '!';
 
 var version = '1.2.1';
-
+//Status
 bot.on('ready', () => {
     console.log('This bot is online!');
     bot.user.setActivity('Deo Vindice.', {
         type: "PLAYING"
     }).catch(console.error);
 })
-
+//Logs
 bot.on('message', msg => {
     if (msg.author == bot.user) {
         return
@@ -24,7 +24,7 @@ bot.on('message', msg => {
         logchannel.send(`${msg.author.username}: ${msg.content}`)
     }
 });
-
+//Edit logs
 bot.on("messageUpdate", async (oldMessage, newMessage) => {
     if (oldMessage.content === newMessage.content) {
         return;
@@ -40,7 +40,7 @@ bot.on("messageUpdate", async (oldMessage, newMessage) => {
         .setTimestamp()
     logchannel.sendMessage(logembed)
 })
-
+//Delete logs
 bot.on("messageDelete", async message => {
         var logchannel = bot.channels.get("608491938794176542");
         let logembed = new Discord.RichEmbed()
@@ -53,35 +53,18 @@ bot.on("messageDelete", async message => {
         logchannel.sendMessage(logembed)
     }),
 
-    bot.on('message', message => {
+bot.on('message', message => {
 
-        let args = message.content.substring(PREFIX.length).split(" ");
+let args = message.content.substring(PREFIX.length).split(" ");
 
-        switch (args[0]) {
-            case 'agree'
-             :message.member.addRole('512099445236826112')
-             message.delete();
-             (message.content); {
-            var agreechannel = bot.channels.get("608491964710518796");
-            agreechannel.send(`${message.author.username} agreed to the rules.`)}
-             console.log
-             console.error
-             break;
-            case 'version': {
+    switch (args[0]) {
+        case 'version': {
                 message.channel.sendMessage('Version ' + version);
             }
-            break;
+        break;
         case 'rules': {
             var attachment = new Attachment('https://cdn.discordapp.com/attachments/547091017720135682/547141106421334037/CodeofConductFINAL.png')
             message.channel.sendMessage(attachment)
-        }
-        break;
-        case 'clear': {
-            if (!message.member.roles.get('516409127531184138')) return message.reply('Only Strategists and higher can use that function.')
-            if (!args[1]) return message.reply('Please define a number of messages to be cleared.')
-            message.channel.bulkDelete(args[1]);
-            message.delete();
-            return message.channel.send('Messages cleared!')
         }
         break;
         case 'kick': {
@@ -104,7 +87,75 @@ bot.on("messageDelete", async message => {
                 break;
             }
         }
-        
+        case 'clear':
+            if(!message.member.roles.get('607804017304928278')) return message.channel.send('YOU AIN\'T AN ADMIN YOU IDIOT!!')
+            if(!args[1]) return message.reply('Please define a number of messages to be cleared.')
+            message.channel.bulkDelete(args[1]);
+            message.delete();
+            var embed = new Discord.RichEmbed()
+                .setThumbnail(message.author.avatarURL)
+                .setTitle('Messages Cleared')
+                .addField('Cleared by:', message.author.username)
+                .setColor("RED")
+                .addField('Quantity', args[1])
+                .setTimestamp();
+            var logChannel = bot.channels.get("608491938794176542");
+            logChannel.sendMessage(embed)
+        break;
+        case 'agree'
+             :message.member.addRole('512099445236826112')
+             message.delete();
+             var embed = new Discord.RichEmbed() 
+                .setTitle('User Agreed')
+                .addField('User:', message.author.username)
+                .setColor(0x2CDB44)
+                .setThumbnail(message.author.avatarURL)
+                .setTimestamp();
+            var logchannel = bot.channels.get("608491964710518796");
+            logchannel.sendMessage(embed)
+        break;
+        case 'jail':{
+            if (!message.member.roles.get('516409127531184138')) return message.channel.send('Only Strategists and above can use this command.')
+            if (!args[1]) return message.reply('Specify a militiamen to be clinked.')
+            const user = message.mentions.users.first();
+            const member = message.guild.member(user);
+            member.removeRole('512099445236826112')
+            member.removeRole('510290359738302465')
+            member.removeRole('516409127531184138')
+            member.removeRole('607804017304928278')
+            member.removeRole('609019057345134725')
+            member.removeRole('608491306607443978')
+            member.addRole('601057172717043726')
+            var embed = new Discord.RichEmbed()
+                .setThumbnail(user.avatarURL)
+                .setTitle('Member Jailed')
+                .addField('Jailed Member:', user.username)
+                .addField('Jailed By:', message.author.username)
+                .setColor("RED")
+                .setTimestamp();
+            var logChannel = bot.channels.get("608491964710518796");
+            logChannel.sendMessage(embed)
+        }
+        break;
+        case 'release':{
+            if (!message.member.roles.get('516409127531184138')) return message.channel.send('Only Strategists and above can use this command.')
+            if (!args[1]) return message.reply('Specify a militiamen to release.')
+            message.delete();
+            const user = message.mentions.users.first();
+            const member = message.guild.member(user);
+            member.removeRole('601057172717043726')
+            member.addRole('512099445236826112')
+            var embed = new Discord.RichEmbed()
+                .setThumbnail(user.avatarURL)
+                .setTitle('Member Released')
+                .addField('Released Member:', user.username)
+                .addField('Released By:', message.author.username)
+                .setColor(0x2CDB44)
+                .setTimestamp();
+            var logChannel = bot.channels.get("608491964710518796");
+            logChannel.sendMessage(embed)
+        }
+        break;
         case 'ban': {
             if (!message.member.roles.get('480609841115561990')) return message.reply('Only Commanding Officers and higher can use that function.')
             if (!args[1]) return message.reply('Please specify a user to be banned.')
